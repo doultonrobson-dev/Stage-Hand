@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage Lyrics & Setlists</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1 id="app-title">Stage Lyrics</h1>
+            <div class="nav-buttons">
+                <button onclick="showScreen('library')">Songs</button>
+                <button onclick="showScreen('setlists')">Setlists</button>
+                <button onclick="openSongEditor()">+ Song</button>
+                <button id="sync-btn" onclick="handleAuthClick()">Cloud Sync</button>
+            </div>
+        </header>
+
+        <!-- SCREEN 1: SONG LIBRARY -->
+        <section id="screen-library" class="screen">
+            <input type="text" id="search-bar" placeholder="Search songs..." oninput="filterSongs()">
+            <ul id="song-list"></ul>
+        </section>
+
+        <!-- SCREEN 2: SETLIST MANAGEMENT -->
+        <section id="screen-setlists" class="screen hidden">
+            <button onclick="openSetlistEditor()">+ Create New Setlist</button>
+            <ul id="setlist-container" style="margin-top: 15px;"></ul>
+        </section>
+
+        <!-- SCREEN 3: STAGE VIEWER -->
+        <section id="screen-viewer" class="screen hidden">
+            <div class="viewer-controls">
+                <button onclick="exitViewer()">Exit Stage</button>
+                <button id="btn-prev-song" onclick="navigateSetlist(-1)">◄ Prev</button>
+                <button id="btn-next-song" onclick="navigateSetlist(1)">Next ►</button>
+                <button id="scroll-toggle" onclick="toggleAutoScroll()">Scroll</button>
+                <input type="range" id="scroll-speed" min="1" max="10" value="3" title="Speed">
+                <button onclick="adjustFontSize(2)">A+</button>
+                <button onclick="adjustFontSize(-2)">A-</button>
+            </div>
+            <div id="viewer-content">
+                <h2 id="view-title"></h2>
+                <h3 id="view-artist"></h3>
+                <div id="view-body"></div>
+            </div>
+            <div class="viewer-bottom-nav">
+                <button id="btn-prev-song-bottom" onclick="navigateSetlist(-1)">◄ Previous Song</button>
+                <button id="btn-next-song-bottom" onclick="navigateSetlist(1)">Next Song ►</button>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: SONG EDITOR -->
+        <section id="screen-editor" class="screen hidden">
+            <input type="hidden" id="edit-id">
+            <input type="text" id="edit-title" placeholder="Song Title">
+            <input type="text" id="edit-artist" placeholder="Artist / Key Info">
+            <textarea id="edit-lyrics" placeholder="Paste chords and lyrics here..."></textarea>
+            <div class="editor-buttons">
+                <button onclick="saveSong()">Save Song</button>
+                <button onclick="deleteCurrentSong()" class="btn-danger">Delete</button>
+                <button onclick="showScreen('library')">Cancel</button>
+            </div>
+        </section>
+
+        <!-- SCREEN 5: SETLIST EDITOR -->
+        <section id="screen-setlist-editor" class="screen hidden">
+            <input type="hidden" id="setlist-edit-id">
+            <input type="text" id="setlist-title" placeholder="Setlist Name (e.g. Saturday Night Set 1)">
+            <p style="margin: 10px 0; color: #aaa;">Select songs to include in order:</p>
+            <div id="setlist-song-picker"></div>
+            <div class="editor-buttons" style="margin-top: 15px;">
+                <button onclick="saveSetlist()">Save Setlist</button>
+                <button onclick="showScreen('setlists')">Cancel</button>
+            </div>
+        </section>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+ 
